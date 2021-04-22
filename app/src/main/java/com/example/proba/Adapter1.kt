@@ -24,12 +24,11 @@ class Adapter1(private val numbers: List<Int>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, pos: Int) {
         val chislo = getitem(pos)
-       holder.text1.text= chislo.toString()
+        holder.text1.text = chislo.toString()
         if (chislo % 2 == 0) {
             holder.text1.textSize = 100.01f
         } else {
             holder.text1.textSize = 50f
-
         }
     }
 
@@ -37,7 +36,7 @@ class Adapter1(private val numbers: List<Int>) :
         return numbers.size
     }
 
-    fun getitem(position: Int):Int{
-        return numbers.getOrNull(position)?:-1 //?:-1 перестраховка от сбоев
+    fun getitem(position: Int): Int {
+        return numbers.getOrNull(position) ?: -1 //?:-1 перестраховка от сбоев
     }
 }
