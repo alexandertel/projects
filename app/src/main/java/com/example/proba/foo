@@ -1,0 +1,38 @@
+interface Animal {
+    fun getNumberOfFingers(): Int
+}
+
+abstract class Monkey {
+
+    init {
+        makeVoice()
+    }
+
+    open fun makeVoice() {
+        println("uouuaoa")
+    }
+
+    abstract fun getNameOfRod(): String
+}
+
+
+class Human : Monkey(), Animal {
+
+    override fun getNumberOfFingers(): Int {
+        return 20
+    }
+
+    override fun getNameOfRod(): String {
+        return "human"
+    }
+
+    override fun makeVoice() {
+        print("hello")
+    }
+
+    fun getLanguage(): String {
+        return "en"
+    }
+}
+
+val chelovek: Monkey = Human()
