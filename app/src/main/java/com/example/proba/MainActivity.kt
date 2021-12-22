@@ -2,11 +2,12 @@ package com.example.proba
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.proba.list.FragmentArticleList
 
-class MainActivity : AppCompatActivity() {   //конструктор активити
-    override fun onCreate(savedInstanceState: Bundle?) {  //Переопределяем функцию onCreate (создание активности) сщхраняем состояние активности в Бандл
-        super.onCreate(savedInstanceState)    // Вызов конструктора родительского класа
-        setContentView(R.layout.activity_main)  // Создает содержимое слоя по макету в activity_main
-        supportFragmentManager.beginTransaction().add(R.id.bigMT, FragmentArticleList()).commit()  // Вызов менеджера фрагментов - вызвать фрагмент FragmentArticleList в макет bigMT
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        supportFragmentManager.beginTransaction().add(R.id.bigMT, FragmentArticleList()).commit()
     }
 }
