@@ -31,7 +31,7 @@ class FragmentArticleList : BaseFragment() {
 
         val viewModel: ArticleListViewModel =
             ViewModelProviders.of(this).get(ArticleListViewModel::class.java)
-        viewModel.articlesViewState.observe(this, Observer<ArticleListState> { state ->
+        viewModel.articlesViewState().observe(this, Observer<ArticleListState> { state ->
             handleState(state)
         })
         viewModel.loadArticles()

@@ -10,21 +10,26 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ArticleListViewModel : ViewModel() {
-    var articlesViewState = MutableLiveData<ArticleListState>()
+
+    private var _articlesViewState = MutableLiveData<ArticleListState>()
+
+    fun articlesViewState() = _articlesViewState
 
     fun loadArticles() {
-        articlesViewState.value = ArticleListState.Loading
+        _articlesViewState.value = ArticleListState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             delay(200)
             var articles: List<Article>?
+
             try {
                 articles = AppComponent.api.getArticles()
+                AppComponent.db.articlesDAO().clear()
                 AppComponent.db.articlesDAO().insertAll(articles)
             } catch (e: Exception) {
                 articles = AppComponent.db.articlesDAO().getAll()
             }
             launch(Dispatchers.Main) {
-                articlesViewState.value = when (articles) {
+                _articlesViewState.value = when (articles) {
                     null -> ArticleListState.Error
                     else -> ArticleListState.Success(articles)
                 }

@@ -1,11 +1,9 @@
-package com.example.proba
+package com.example.proba.data
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.proba.data.Article
-import com.example.proba.data.ArticleDetail
 
 @Dao
 interface ArticlesDAO {
@@ -15,6 +13,9 @@ interface ArticlesDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(articles: List<Article>)
+
+    @Query("DELETE FROM article")
+    fun clear()
 }
 
 @Dao

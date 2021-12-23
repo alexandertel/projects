@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.proba.R
@@ -14,15 +16,7 @@ import java.util.*
 
 class ArticlesAdapter(
     private val clickItem: (id: String) -> Unit
-) : RecyclerView.Adapter<ArticlesAdapter.MyViewHolder>() {
-
-    private val listArticles = mutableListOf<Article>()
-
-    fun submitList(list: List<Article>) {
-        listArticles.clear()
-        listArticles.addAll(list)
-        notifyDataSetChanged()
-    }
+) : ListAdapter<Article, ArticlesAdapter.MyViewHolder>(DiffCallback()) {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -40,7 +34,7 @@ class ArticlesAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, pos: Int) {
-        val article = listArticles[pos]
+        val article = getItem(pos)
 
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
         val outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
@@ -60,8 +54,16 @@ class ArticlesAdapter(
             clickItem(article.id)
         }
     }
+}
 
-    override fun getItemCount(): Int {
-        return listArticles.size
+class DiffCallback : DiffUtil.ItemCallback<Article>() {
+    override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+        return oldItem.title == newItem.title &&
+                oldItem.imageUrl == newItem.imageUrl &&
+                oldItem.publishedAt == newItem.publishedAt
     }
 }

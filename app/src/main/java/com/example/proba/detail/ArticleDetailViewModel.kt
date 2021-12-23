@@ -19,23 +19,18 @@ class ArticleDetailViewModel : ViewModel() {
         _articleDetailState.value = DetailState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             delay(200)
-            var onlineArticleDetail: ArticleDetail? = null
-            var offlineArticleDetail: ArticleDetail? = null
+            var articleDetail: ArticleDetail?
+
             try {
-                onlineArticleDetail = AppComponent.api.getArticleDetail(articleId)
-                AppComponent.db.articleDetailDAO().insertDetail(onlineArticleDetail)
+                articleDetail = AppComponent.api.getArticleDetail(articleId)
+                AppComponent.db.articleDetailDAO().insertDetail(articleDetail)
             } catch (e: Exception) {
-                offlineArticleDetail = AppComponent.db.articleDetailDAO().getDetail(articleId)
+                articleDetail = AppComponent.db.articleDetailDAO().getDetail(articleId)
             }
             launch(Dispatchers.Main) {
-                _articleDetailState.value = when {
-                    onlineArticleDetail == null && offlineArticleDetail == null ->
-                        DetailState.Error
-                    onlineArticleDetail != null || offlineArticleDetail != null ->
-                        DetailState.Success(
-                            onlineArticleDetail ?: offlineArticleDetail!!
-                        )
-                    else -> _articleDetailState.value
+                _articleDetailState.value = when (articleDetail) {
+                    null -> DetailState.Error
+                    else -> DetailState.Success(articleDetail)
                 }
             }
         }
