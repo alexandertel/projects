@@ -1,16 +1,18 @@
 package com.example.proba
 
 import android.app.Application
-import android.content.Context
+import com.example.proba.di.DaggerMainComponent
+import com.example.proba.di.MainComponent
+import com.example.proba.di.MainModule
 
 class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        context = applicationContext
+        component = DaggerMainComponent.builder().mainModule(MainModule(this)).build()
     }
 
     companion object {
-        var context : Context? = null
+        lateinit var component: MainComponent
     }
 }
