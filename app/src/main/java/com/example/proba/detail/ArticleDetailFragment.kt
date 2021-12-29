@@ -3,13 +3,15 @@ package com.example.proba.detail
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
+import com.example.proba.MyApplication
 import com.example.proba.R
 import com.example.proba.core.BaseFragment
 import com.example.proba.data.ArticleDetail
 import kotlinx.android.synthetic.main.fragment_article.*
+import javax.inject.Inject
 
 class ArticleDetailFragment : BaseFragment() {
 
@@ -23,12 +25,18 @@ class ArticleDetailFragment : BaseFragment() {
 
     override var layoutResource = R.layout.fragment_article
 
+    @Inject
+    lateinit var factoryDetails: DetailViewModelFactory
+
+    private val viewModel: ArticleDetailViewModel by viewModels(factoryProducer = {
+        factoryDetails
+    })
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        MyApplication.component.inject(this)
 
-        val viewModel: ArticleDetailViewModel =
-            ViewModelProviders.of(this).get(ArticleDetailViewModel::class.java)
-        viewModel.articleDetailState().observe(this, Observer<DetailState> { state ->
+        viewModel.articleDetailState.observe(viewLifecycleOwner, Observer<DetailState> { state ->
             handleDetailState(state)
         })
         viewModel.loadArticle(id)

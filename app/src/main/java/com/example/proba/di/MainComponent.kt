@@ -2,6 +2,8 @@ package com.example.proba.di
 
 import com.example.proba.data.ApiService
 import com.example.proba.data.MyDatabase
+import com.example.proba.detail.ArticleDetailFragment
+import com.example.proba.list.FragmentArticleList
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,4 +12,6 @@ import javax.inject.Singleton
 interface MainComponent {
     fun api(): ApiService
     fun db(): MyDatabase
+    fun inject(fragment: FragmentArticleList)
+    fun inject(fragment: ArticleDetailFragment)
 }

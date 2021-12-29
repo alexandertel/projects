@@ -3,13 +3,15 @@ package com.example.proba.list
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import com.example.proba.MyApplication
 import com.example.proba.R
 import com.example.proba.core.BaseFragment
 import com.example.proba.data.Article
 import com.example.proba.detail.ArticleDetailFragment
 import kotlinx.android.synthetic.main.fragment_article_list.*
+import javax.inject.Inject
 
 class FragmentArticleList : BaseFragment() {
 
@@ -25,13 +27,19 @@ class FragmentArticleList : BaseFragment() {
 
     override var layoutResource = R.layout.fragment_article_list
 
+    @Inject
+    lateinit var viewModelFactory: ListViewModelFactory
+
+    private val viewModel: ArticleListViewModel by viewModels(factoryProducer = {
+        viewModelFactory
+    })
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        MyApplication.component.inject(this)
         recyclerView.adapter = adapter
 
-        val viewModel: ArticleListViewModel =
-            ViewModelProviders.of(this).get(ArticleListViewModel::class.java)
-        viewModel.articlesViewState().observe(this, Observer<ArticleListState> { state ->
+        viewModel.articlesViewState.observe(viewLifecycleOwner, Observer<ArticleListState> { state ->
             handleState(state)
         })
         viewModel.loadArticles()
