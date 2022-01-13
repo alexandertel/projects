@@ -6,14 +6,14 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface ArticlesDAO {
+interface BlogsDAO {
 
-    @Query("SELECT * FROM article")
-    fun getAll(): List<Article>
+    @Query("SELECT * FROM blog")
+    fun getBlogs(): List<Blog>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(articles: List<Article>)
+    fun insertBlogs(blogs: List<Blog>)
 
-    @Query("DELETE FROM article")
-    fun clear()
+    @Query("DELETE FROM blog")
+    fun clearBlogs()
 }
