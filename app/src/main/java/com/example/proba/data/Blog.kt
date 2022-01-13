@@ -4,10 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class ArticleDetail(
+data class Blog(
     @PrimaryKey
     val id: String,
     val title: String,
     val imageUrl: String,
-    val summary: String
+    val publishedAt: String
 )

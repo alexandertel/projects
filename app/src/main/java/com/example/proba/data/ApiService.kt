@@ -9,4 +9,10 @@ interface ApiService {
 
     @GET("articles/{id}")
     suspend fun getArticleDetail(@Path("id") articleId: String): ArticleDetail
+
+    @GET("blogs")
+    suspend fun getBlogs(): List<Blog>
+
+    @GET("blogs/{id}")
+    suspend fun getBlogDetail(@Path("id") blogId: String): BlogDetail
 }

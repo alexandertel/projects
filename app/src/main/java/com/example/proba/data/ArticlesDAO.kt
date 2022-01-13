@@ -27,3 +27,26 @@ interface ArticleDetailDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDetail(articleDetail: ArticleDetail)
 }
+
+@Dao
+interface BlogsDAO {
+
+    @Query("SELECT * FROM blog")
+    fun getBlogs(): List<Blog>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertBlogs(blogs: List<Blog>)
+
+    @Query("DELETE FROM blog")
+    fun clearBlogs()
+}
+
+@Dao
+interface BlogDetailDAO {
+
+    @Query("SELECT * FROM blogdetail WHERE id = :blogId ")
+    fun getBlogDetail(blogId: String): BlogDetail?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertBlogDetail(blogDetail: BlogDetail)
+}

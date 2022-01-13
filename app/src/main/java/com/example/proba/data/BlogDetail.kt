@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class ArticleDetail(
+data class BlogDetail(
     @PrimaryKey
     val id: String,
     val title: String,

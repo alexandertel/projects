@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bigMT"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
+    <TextView
+        android:id="@+id/tv_article_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="200dp"
+        android:background="@color/teal_200"
+        android:padding="10dp"
+        android:text="Articles"
+        android:textColor="@color/black"
+        android:textSize="30dp"/>
 
+    <TextView
+        android:id="@+id/tv_blog_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="300dp"
+        android:background="@color/teal_200"
+        android:padding="10dp"
+        android:text="Blogs"
+        android:textSize="30dp"
+        android:textColor="@color/black"/>
 
+    <FrameLayout
+        android:id="@+id/bigMT"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
+</FrameLayout>
