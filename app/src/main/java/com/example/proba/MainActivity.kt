@@ -1,7 +1,9 @@
 package com.example.proba
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import com.example.proba.blogs.FragmentBlogList
 import com.example.proba.list.FragmentArticleList

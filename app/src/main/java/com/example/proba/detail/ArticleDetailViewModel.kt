@@ -3,39 +3,27 @@ package com.example.proba.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.proba.MyApplication
-import com.example.proba.data.ApiService
-import com.example.proba.data.ArticleDetail
-import com.example.proba.data.MyDatabase
+import com.example.proba.domain.ArticleInteractor
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ArticleDetailViewModel @Inject constructor(
-    private val db: MyDatabase,
-    private val api: ApiService
+    private val interactor: ArticleInteractor
 ) : ViewModel() {
 
     val articleDetailState = MutableLiveData<DetailState>()
 
     fun loadArticle(articleId: String) {
         articleDetailState.value = DetailState.Loading
-        viewModelScope.launch(Dispatchers.IO) {
-            delay(200)
-            var articleDetail: ArticleDetail?
+        viewModelScope.launch {
+            val articleDetail =
+                withContext(Dispatchers.IO) { interactor.getArticleDetail(articleId) }
 
-            try {
-                articleDetail = api.getArticleDetail(articleId)
-                db.articleDetailDAO().insertDetail(articleDetail)
-            } catch (e: Exception) {
-                articleDetail = db.articleDetailDAO().getDetail(articleId)
-            }
-            launch(Dispatchers.Main) {
-                articleDetailState.value = when (articleDetail) {
-                    null -> DetailState.Error
-                    else -> DetailState.Success(articleDetail)
-                }
+            articleDetailState.value = when (articleDetail) {
+                null -> DetailState.Error
+                else -> DetailState.Success(articleDetail)
             }
         }
     }
